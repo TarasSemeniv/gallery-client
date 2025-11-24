@@ -16,7 +16,8 @@ export default function Index() {
   const theme = context ? context.theme : 'light';
   const stylesTheme = createStyles(theme);
 
-  let { refresh } = useLocalSearchParams();
+  const params = useLocalSearchParams();
+  const [refresh, setRefresh] = useState(params.refresh);
 
   const getPictures = async () => {
     try {
@@ -49,11 +50,13 @@ export default function Index() {
   useEffect( () => {filterPictures() }, [filter])
   
   useEffect(() => {
+    
     if (refresh === "1") {
       getPictures();
+      setRefresh("0");
     }
-    refresh = "0";
   }, [refresh]);
+  
   useEffect(() => { getPictures()}, [])
 
   if (loading) {

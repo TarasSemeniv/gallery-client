@@ -88,8 +88,15 @@ const addPicture = () => {
     if (!tags && !selectedTag) return;
     try {
       const url = 'http://192.168.0.47:5092/api/Pictures';
+      const checkedTags = tags
+        .split(',')
+        .map(tag => {
+          const t = tag.trim();
+          return t.startsWith('#') ? t : `#${t}`
+        })
+        .join(',')
       const toSend = { 
-          tags: `${tags ? tags : selectedTag}`,
+          tags: `${checkedTags ? checkedTags : selectedTag}`,
           data: `${base64}`,
           sendby: "Unknown device",//DeviceInfo.getModel(),
           createdat: new Date()
